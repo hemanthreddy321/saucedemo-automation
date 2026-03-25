@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SauceDemo Regression Suite" parallel="methods" thread-count="3" verbose="1">
+
+  <parameter name="browser" value="chrome"/>
+  <parameter name="env"     value="staging"/>
+
+  <test name="Login Tests">
+<!--    <groups>-->
+<!--      <run>-->
+<!--        <include name="Login"/>-->
+<!--      </run>-->
+<!--    </groups>-->
+    <classes>
+      <class name="runners.TestRunner"/>
+    </classes>
+  </test>
+
+  <test name="Inventory Tests">
+<!--    <groups>-->
+<!--      <run>-->
+<!--        <include name="Inventory"/>-->
+<!--      </run>-->
+<!--    </groups>-->
+    <classes>
+      <class name="runners.TestRunner"/>
+    </classes>
+  </test>
+
+  <test name="Checkout Tests">
+<!--    <groups>-->
+<!--      <run>-->
+<!--        <include name="Checkout"/>-->
+<!--      </run>-->
+<!--    </groups>-->
+    <classes>
+      <class name="runners.TestRunner"/>
+    </classes>
+  </test>
+
+</suite>

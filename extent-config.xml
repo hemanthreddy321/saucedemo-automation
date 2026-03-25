@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+  <configuration>
+    <theme>DARK</theme>
+    <encoding>UTF-8</encoding>
+    <protocol>HTTPS</protocol>
+    <documentTitle>SauceDemo Automation Report</documentTitle>
+    <reportName>Regression Suite — SauceDemo</reportName>
+    <timeStampFormat>MMM d, yyyy HH:mm:ss</timeStampFormat>
+    <scripts>
+      <script></script>
+    </scripts>
+    <styles>
+      <style></style>
+    </styles>
+  </configuration>
+</extentreports>

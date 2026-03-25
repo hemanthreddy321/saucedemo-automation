@@ -1,0 +1,28 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.eclipse/
+*.classpath
+*.project
+*.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output (generated at runtime)
+target/ExtentReports/
+target/cucumber-reports/
+target/screenshots/
+target/surefire-reports/
+
+# Keep testdata folder structure but ignore actual Excel files
+src/test/resources/testdata/*.xlsx
+!src/test/resources/testdata/README.txt
