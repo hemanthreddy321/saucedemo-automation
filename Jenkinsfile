@@ -66,7 +66,7 @@ pipeline {
                     keepAll              : true,
                     reportDir            : "${env.REPORT_DIR}",
                     reportFiles          : 'index.html', // Fixed: spark report is usually index.html or SparkReport.html
-                    reportName           : 'Extent_Report' // Fixed: Changed to match your Extent_5fReport URL
+                    reportName           : 'Extent_5fReport' // Fixed: Changed to match your Extent_5fReport URL
                 ])
             }
         }
@@ -87,77 +87,74 @@ pipeline {
     }
 
     post {
-        success {
-            // Send Email
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                body: """
-                                                <html>
-                                                <body>
-                                                  <p>Hello Team,</p>
-                                                  <p>The latest Jenkins build has completed successfully.</p>
-                                                  <p><b>Project Name:</b> ${env.JOB_NAME}</p>
-                                                  <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
-                                                  <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
-                                                  <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                                                  <hr>
-                                                  <p><b>Detailed QA Reports:</b></p>
-                                                  <ul>
-                                                    <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport/">View Online</a></li>
-                                                    <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
-                                                  </ul>
-                                                  <p>Best regards,<br><b>Automation Team</b></p>
-                                                </body>
-                                                </html>
-                """,
-                mimeType: 'text/html',
-                to: 'hemanthreddy12773@gmail.com'
-            )
-            // Send Slack
-            slackSend(
-                color: 'good',
-                baseUrl: 'https://slack.com',
-                token: 'T0B2VR18BPB/B0B2QHDLTFF/gFQn1pSsLxrojGw3jORYdcUv',
-                channel: '#all-jenkins',
-                message: "✅ SUCCESS: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\nReport: ${env.BUILD_URL}Extent_5fReport/"
-            )
-        }
-        failure {
-            // Send Email
-            emailext(
-                subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                body: """
-                    <html>
-                                                <body>
-                                                  <p>Hello Team,</p>
-                                                  <p>The latest Jenkins build has <b style="color: red;">FAILED</b>.</p>
-                                                  <p><b>Project Name:</b> ${env.JOB_NAME}</p>
-                                                  <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
-                                                  <p><b>Build Status:</b> <span style="color: red;"><b>FAILED ❌</b></span></p>
-                                                  <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                                                  <p><b>Console Logs:</b> <a href="${env.BUILD_URL}console">View Failure Details</a></p>
-                                                  <hr>
-                                                  <p><b>Detailed QA Reports:</b></p>
-                                                  <ul>
-                                                    <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport/">View Online</a></li>
-                                                    <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
-                                                  </ul>
-                                                  <p>Best regards,<br><b>Automation Team</b></p>
-                                                </body>
-                                                </html>
-                """,
-                mimeType: 'text/html',
-                to: 'hemanthreddy12773@gmail.com'
-            )
-            // Send Slack
-            slackSend(
-                color: 'danger',
-                baseUrl: 'https://slack.com',
-                token: 'T0B2VR18BPB/B0B2QHDLTFF/gFQn1pSsLxrojGw3jORYdcUv',
-                channel: '#all-jenkins',
-                message: "❌ FAILED: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\nConsole: ${env.BUILD_URL}console"
-            )
-        }
+                success {
+                    // Send Email
+                    emailext(
+                        subject: "SUCCESS: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                        body: """
+                            <html>
+                            <body>
+                              <p>Hello Team,</p>
+                              <p>The latest Jenkins build has completed successfully.</p>
+                              <p><b>Project Name:</b> ${env.JOB_NAME}</p>
+                              <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
+                              <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
+                              <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                              <hr>
+                              <p><b>Detailed QA Reports:</b></p>
+                              <ul>
+                                <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport/">View Online</a></li>
+                                <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
+                              </ul>
+                              <p>Best regards,<br><b>Automation Team</b></p>
+                            </body>
+                            </html>
+                        """,
+                        mimeType: 'text/html',
+                        to: 'hemanthreddy12773@gmail.com'
+                    )
+                    // Send Slack - Simplified because Global Config has the Webhook URL
+                    slackSend(
+                        color: 'good',
+                        channel: '#all-jenkins',
+                        message: "✅ SUCCESS: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\nReport: ${env.BUILD_URL}Extent_5fReport/"
+                    )
+                }
+                failure {
+                    // Send Email
+                    emailext(
+                        subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                        body: """
+                            <html>
+                            <body>
+                              <p>Hello Team,</p>
+                              <p>The latest Jenkins build has <b style="color: red;">FAILED</b>.</p>
+                              <p><b>Project Name:</b> ${env.JOB_NAME}</p>
+                              <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
+                              <p><b>Build Status:</b> <span style="color: red;"><b>FAILED ❌</b></span></p>
+                              <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                              <p><b>Console Logs:</b> <a href="${env.BUILD_URL}console">View Failure Details</a></p>
+                              <hr>
+                              <p><b>Detailed QA Reports:</b></p>
+                              <ul>
+                                <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport/">View Online</a></li>
+                                <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
+                              </ul>
+                              <p>Best regards,<br><b>Automation Team</b></p>
+                            </body>
+                            </html>
+                        """,
+                        mimeType: 'text/html',
+                        to: 'hemanthreddy12773@gmail.com'
+                    )
+                    // Send Slack - Simplified
+                    slackSend(
+                        color: 'danger',
+                        channel: '#all-jenkins',
+                        message: "❌ FAILED: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\nConsole: ${env.BUILD_URL}console"
+                    )
+                }
+
         always {
             archiveArtifacts artifacts: 'target/ExtentReports/**',      fingerprint: true, allowEmptyArchive: true
             archiveArtifacts artifacts: 'target/cucumber-reports/**',   fingerprint: true, allowEmptyArchive: true
