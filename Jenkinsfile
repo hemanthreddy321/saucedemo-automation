@@ -65,7 +65,6 @@ pipeline {
                      fileIncludePattern: '**/cucumber.json',
                      trendsLimit: 10,
                      sortingMethod: 'ALPHABETICAL',
-                     useFullRelativePath: true,
                      classifications: [
                          [key: 'Browser', value: "${params.BROWSER}"],
                          [key: 'Environment', value: "${params.ENV}"]
