@@ -147,7 +147,7 @@ pipeline {
                         mimeType: 'text/html',
                         to: 'hemanthreddy12773@gmail.com'
                     )
-                    // Send Slack - Simplified
+                    // Send Slack
                     slackSend(
                         color: 'danger',
                         channel: '#all-jenkins',
