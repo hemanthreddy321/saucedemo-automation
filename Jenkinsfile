@@ -86,10 +86,10 @@ pipeline {
 <p>Hello Team,</p>
                               <p>Hello Team,</p>
                                 <p>The latest Jenkins build has completed successfully.</p>
-                                <p><b>Project Name:</b> ${PROJECT_NAME}</p>
-                                <p><b>Build Number:</b> #${BUILD_NUMBER}</p>
+                                <p><b>Project Name:</b> ${env.JOB_NAME}</p>
+                                <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
                                 <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
-                                <p><b>Build URL:</b> <a href="${BUILD_URL}">${BUILD_URL}</a></p>
+                                <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${BUILD_URL}</a></p>
                               <hr>
                               <p><b>Detailed Test Reports:</b></p>
                       <ul>
@@ -125,8 +125,8 @@ pipeline {
                       <p>Hello Team,</p>
                                                       <p>Hello Team,</p>
                                                       <p>The latest Jenkins build has <b style="color: red;">FAILED</b>.</p>
-                                                      <p><b>Project Name:</b> ${PROJECT_NAME}</p>
-                                                      <p><b>Build Number:</b> #${BUILD_NUMBER}</p>
+                                                      <p><b>Project Name:</b> ${env.JOB_NAME}</p>
+                                                      <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
                                                       <p><b>Build Status:</b> <span style="color: red;"><b>FAILED ❌</b></span></p>
                                                       <p><b>Build URL:</b> <a href="${BUILD_URL}">${BUILD_URL}</a></p>
                                                     <hr>
