@@ -9,7 +9,7 @@ pipeline {
     parameters {
         choice(name: 'BROWSER', choices: ['chrome', 'firefox'], description: 'Browser to run tests on')
         choice(name: 'ENV', choices: ['staging', 'prod'], description: 'Target environment')
-        string(name: 'TAGS', defaultValue: '@Regression', description: 'Cucumber tag expression')
+        choice(name: 'TAGS', choices: ['@Regression', '@Login','@Inventory', '@Checkout'], description: 'Cucumber tag expression')
     }
 
     environment {
