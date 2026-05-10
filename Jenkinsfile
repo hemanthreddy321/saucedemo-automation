@@ -42,54 +42,54 @@ pipeline {
                       -Dcucumber.filter.tags="${params.TAGS}"
                 """
             }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
-                }
-            }
-        }
-
-        stage('Publish Extent Report') {
-            steps {
-                publishHTML(target: [
-                    allowMissing         : false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll              : true,
-                    reportDir            : "${env.REPORT_DIR}",
-                    reportFiles          : 'index.html',
-                    reportName           : 'Extent Report' // Becomes Extent_5fReport in URL
-                ])
-            }
-        }
-
-        stage('Publish Cucumber Report') {
-            steps {
-                cucumber buildStatus: 'UNSTABLE',
-                         reportTitle: '',
-                         fileIncludePattern: '**/cucumber.json',
-                         trendsLimit: 10,
-                         classifications: [
-                             [key: 'Browser', value: "${params.BROWSER}"],
-                             [key: 'Environment', value: "${params.ENV}"]
-                         ]
-            }
         }
     }
 
     post {
+        always {
+            // 1. Record JUnit Results
+            junit '**/target/surefire-reports/*.xml'
+
+            // 2. Publish Reports (Moved to always so they run on failure)
+            publishHTML(target: [
+                allowMissing         : false,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "${env.REPORT_DIR}",
+                reportFiles          : 'index.html',
+                reportName           : 'Extent Report'
+            ])
+
+            cucumber buildStatus: 'UNSTABLE',
+                     reportTitle: 'Cucumber Report',
+                     fileIncludePattern: '**/cucumber.json',
+                     trendsLimit: 10,
+                     classifications: [
+                         [key: 'Browser', value: "${params.BROWSER}"],
+                         [key: 'Environment', value: "${params.ENV}"]
+                     ]
+
+            // 3. Archive Artifacts
+            archiveArtifacts artifacts: 'target/ExtentReports/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'target/cucumber-reports/**', allowEmptyArchive: true
+
+            // 4. Cleanup
+            cleanWs()
+        }
+
         success {
             emailext(
                 subject: "SUCCESS: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
                 body: """
                     <html><body>
-                      <p>Hello Team,</p>
-                                                    <p>The latest Jenkins build has completed successfully.</p>
-                                                    <p><b>Project Name:</b> ${env.JOB_NAME}</p>
-                                                    <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
-                                                    <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
-                                                    <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                                                    <hr>
-                                                    <p><b>Detailed QA Reports:</b></p>
+<p>Hello Team,</p>
+                              <p>The latest Jenkins build has completed successfully.</p>
+                              <p><b>Project Name:</b> ${env.JOB_NAME}</p>
+                              <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
+                              <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
+                              <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                              <hr>
+                              <p><b>Detailed QA Reports:</b></p>
                       <ul>
                           <li><b>Extent Report:</b> <a href="${env.BUILD_URL}artifact/target/ExtentReports/index.html">View Online</a></li>
                           <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}artifact/target/cucumber-reports/report.html">View Online</a></li>
@@ -102,9 +102,10 @@ pipeline {
             slackSend(
                 color: 'good',
                 channel: '#all-jenkins',
-                message: "✅ SUCCESS: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\nExtent: ${env.BUILD_URL}Extent_5fReport/index.html\nCucumber: ${env.BUILD_URL}cucumber-html-reports/overview-features.html"
+                message: "✅ SUCCESS: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]\nExtent: ${env.BUILD_URL}artifact/target/ExtentReports/index.html"
             )
         }
+
         failure {
             emailext(
                 subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
@@ -130,13 +131,8 @@ pipeline {
             slackSend(
                 color: 'danger',
                 channel: '#all-jenkins',
-                message: "❌ FAILED: ${env.JOB_NAME} [${env.BUILD_NUMBER}]\nConsole: ${env.BUILD_URL}console"
+                message: "❌ FAILED: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]\nConsole: ${env.BUILD_URL}console"
             )
-        }
-        always {
-            archiveArtifacts artifacts: 'target/ExtentReports/**', allowEmptyArchive: true
-            archiveArtifacts artifacts: 'target/cucumber-reports/**', allowEmptyArchive: true
-            cleanWs()
         }
     }
 }
