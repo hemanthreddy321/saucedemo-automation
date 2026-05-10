@@ -65,7 +65,7 @@ pipeline {
         stage('Publish Cucumber Report') {
             steps {
                 cucumber buildStatus: 'UNSTABLE',
-                         reportTitle: 'Cucumber Report',
+                         reportTitle: '',
                          fileIncludePattern: '**/cucumber.json',
                          trendsLimit: 10,
                          classifications: [
@@ -92,7 +92,7 @@ pipeline {
                                                     <p><b>Detailed QA Reports:</b></p>
                       <ul>
                         <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport/index.html">View Online</a></li>
-                        <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}cucumber-reports/report.html">View Online</a></li>
+                        <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
                       </ul>
                     </body></html>
                 """,
@@ -119,7 +119,8 @@ pipeline {
                                                     <hr>
                                                     <p><b>Detailed QA Reports:</b></p>
                       <ul>
-                        <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport/index.html">View Online</a></li>
+                        <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport">View Online</a></li>
+                        <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
                       </ul>
                     </body></html>
                 """,
