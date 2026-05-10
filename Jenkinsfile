@@ -125,7 +125,7 @@ pipeline {
                                                     <p>The latest Jenkins build has completed successfully.</p>
                                                     <p><b>Project Name:</b> ${env.JOB_NAME}</p>
                                                     <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
-                                                    <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
+                                                    <p><b>Build Status:</b> <span style="color: green;"><b>FAILED ❌</b></span></p>
                                                     <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
                                                     <hr>
                                                     <p><b>Detailed QA Reports:</b></p>
