@@ -84,13 +84,14 @@ pipeline {
                 body: """
                     <html><body>
 <p>Hello Team,</p>
-                              <p>The latest Jenkins build has completed successfully.</p>
-                              <p><b>Project Name:</b> ${env.JOB_NAME}</p>
-                              <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
-                              <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
-                              <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                              <p>Hello Team,</p>
+                                <p>The latest Jenkins build has completed successfully.</p>
+                                <p><b>Project Name:</b> ${PROJECT_NAME}</p>
+                                <p><b>Build Number:</b> #${BUILD_NUMBER}</p>
+                                <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
+                                <p><b>Build URL:</b> <a href="${BUILD_URL}">${BUILD_URL}</a></p>
                               <hr>
-                              <p><b>Detailed QA Reports:</b></p>
+                              <p><b>Detailed Test Reports:</b></p>
                       <ul>
                           <li><b>Extent Report:</b> <a href="${env.BUILD_URL}artifact/target/ExtentReports/index.html">View Online</a></li>
                           <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}artifact/target/cucumber-reports/report.html">View Online</a></li>
@@ -122,13 +123,14 @@ pipeline {
                 body: """
                     <html><body>
                       <p>Hello Team,</p>
-                                                    <p>The latest Jenkins build has completed successfully.</p>
-                                                    <p><b>Project Name:</b> ${env.JOB_NAME}</p>
-                                                    <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
-                                                    <p><b>Build Status:</b> <span style="color: red;"><b>FAILED ❌</b></span></p>
-                                                    <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                                                      <p>Hello Team,</p>
+                                                      <p>The latest Jenkins build has <b style="color: red;">FAILED</b>.</p>
+                                                      <p><b>Project Name:</b> ${PROJECT_NAME}</p>
+                                                      <p><b>Build Number:</b> #${BUILD_NUMBER}</p>
+                                                      <p><b>Build Status:</b> <span style="color: red;"><b>FAILED ❌</b></span></p>
+                                                      <p><b>Build URL:</b> <a href="${BUILD_URL}">${BUILD_URL}</a></p>
                                                     <hr>
-                                                    <p><b>Detailed QA Reports:</b></p>
+                                                    <p><b>Detailed Test Reports:</b></p>
                       <ul>
                           <li><b>Extent Report:</b> <a href="${env.BUILD_URL}artifact/target/ExtentReports/index.html">View Online</a></li>
                           <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}artifact/target/cucumber-reports/report.html">View Online</a></li>
