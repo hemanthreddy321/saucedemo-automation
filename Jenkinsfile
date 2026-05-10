@@ -103,14 +103,14 @@ pipeline {
             withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_URL')]) {
 
                 powershell """
-                    $payload = @{
+                    \$payload = @{
                         text = "✅ SUCCESS: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]`nExtent Report: ${env.BUILD_URL}artifact/target/ExtentReports/index.html"
                     } | ConvertTo-Json
 
                     Invoke-RestMethod `
-                        -Uri "$env:SLACK_URL" `
+                        -Uri "\$env:SLACK_URL" `
                         -Method Post `
-                        -Body $payload `
+                        -Body \$payload `
                         -ContentType 'application/json'
                 """
             }
@@ -141,14 +141,14 @@ pipeline {
             withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_URL')]) {
 
                 powershell """
-                    $payload = @{
+                    \$payload = @{
                         text = "❌ FAILED: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]`nConsole: ${env.BUILD_URL}console"
                     } | ConvertTo-Json
 
                     Invoke-RestMethod `
-                        -Uri "$env:SLACK_URL" `
+                        -Uri "\$env:SLACK_URL" `
                         -Method Post `
-                        -Body $payload `
+                        -Body \$payload `
                         -ContentType 'application/json'
                 """
             }
