@@ -28,8 +28,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Checking out branch: ${env.GIT_BRANCH}"
-                git branch: 'main',
-                    url: 'https://github.com/your-org/saucedemo-automation.git',
+                git branch: 'master',
+                    url: 'https://github.com/hemanthreddy321/saucedemo-automation.git',
                     credentialsId: 'github-creds'
             }
         }
@@ -37,14 +37,14 @@ pipeline {
         stage('Compile') {
             steps {
                 echo 'Compiling project...'
-                sh 'mvn clean compile -q'
+                bat 'mvn clean compile -q'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo "Running tests with tags: ${params.TAGS} on ${params.BROWSER}"
-                sh """
+                bat """
                     mvn test \\
                       -Dbrowser=${params.BROWSER} \\
                       -Dheadless=${env.HEADLESS} \\
@@ -66,7 +66,7 @@ pipeline {
                     alwaysLinkToLastBuild: true,
                     keepAll              : true,
                     reportDir            : "${env.REPORT_DIR}",
-                    reportFiles          : 'SparkReport.html',
+                    reportFiles          : 'index.html',
                     reportName           : 'Extent Report'
                 ])
             }
