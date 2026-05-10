@@ -91,8 +91,8 @@ pipeline {
                                                     <hr>
                                                     <p><b>Detailed QA Reports:</b></p>
                       <ul>
-                        <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport/index.html">View Online</a></li>
-                        <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
+                          <li><b>Extent Report:</b> <a href="${env.BUILD_URL}artifact/target/ExtentReports/index.html">View Online</a></li>
+                          <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}artifact/target/cucumber-reports/report.html">View Online</a></li>
                       </ul>
                     </body></html>
                 """,
@@ -119,8 +119,8 @@ pipeline {
                                                     <hr>
                                                     <p><b>Detailed QA Reports:</b></p>
                       <ul>
-                        <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_5fReport">View Online</a></li>
-                        <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}Cucumber_5fReport/">View Online</a></li>
+                          <li><b>Extent Report:</b> <a href="${env.BUILD_URL}artifact/target/ExtentReports/index.html">View Online</a></li>
+                          <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}artifact/target/cucumber-reports/report.html">View Online</a></li>
                       </ul>
                     </body></html>
                 """,
