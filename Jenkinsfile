@@ -19,7 +19,7 @@ pipeline {
     }
 
     environment {
-        HEADLESS   = 'true'
+        HEADLESS   = 'false'
         REPORT_DIR = 'target/ExtentReports'
     }
 
@@ -45,10 +45,10 @@ pipeline {
             steps {
                 echo "Running tests with tags: ${params.TAGS} on ${params.BROWSER}"
                 bat """
-                    mvn test \\
-                      -Dbrowser=${params.BROWSER} \\
-                      -Dheadless=${env.HEADLESS} \\
-                      -Denv=${params.ENV} \\
+                    mvn test ^
+                      -Dbrowser=${params.BROWSER} ^
+                      -Dheadless=${env.HEADLESS} ^
+                      -Denv=${params.ENV} ^
                       -Dcucumber.filter.tags="${params.TAGS}"
                 """
             }
@@ -89,29 +89,58 @@ pipeline {
 
     post {
         success {
-            echo "BUILD PASSED - Report: ${env.BUILD_URL}Extent_Report/"
-            slackSend(color: 'good',
-                      message: "PASSED: ${env.JOB_NAME} #${env.BUILD_NUMBER} | ${env.BUILD_URL}Extent_Report/")
-        }
-        failure {
-            emailext(
-                subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                body: """
-                    <h2>Build Failed</h2>
-                    <p><b>Job:</b> ${env.JOB_NAME}</p>
-                    <p><b>Build #:</b> ${env.BUILD_NUMBER}</p>
-                    <p><b>Branch:</b> ${env.GIT_BRANCH}</p>
-                    <p><b>Browser:</b> ${params.BROWSER}</p>
-                    <p><b>Tags:</b> ${params.TAGS}</p>
-                    <p><b>Console:</b> <a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a></p>
-                    <p><b>Report:</b> <a href="${env.BUILD_URL}Extent_Report/">${env.BUILD_URL}Extent_Report/</a></p>
-                """,
-                mimeType: 'text/html',
-                to: 'hemanthreddy12773@gmail.com'
-            )
-            slackSend(color: 'danger',
-                      message: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} | ${env.BUILD_URL}console")
-        }
+                    emailext(
+                        subject: "SUCCESS: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                        body: """
+                            <html>
+                            <body>
+                              <p>Hello Team,</p>
+                              <p>The latest Jenkins build has completed successfully.</p>
+                              <p><b>Project Name:</b> ${env.JOB_NAME}</p>
+                              <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
+                              <p><b>Build Status:</b> <span style="color: green;"><b>SUCCESS ✅</b></span></p>
+                              <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                              <hr>
+                              <p><b>Detailed QA Reports:</b></p>
+                              <ul>
+                                <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_20Report/">View Online</a></li>
+                                <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">View Online</a></li>
+                              </ul>
+                              <p>Best regards,<br><b>Automation Team</b></p>
+                            </body>
+                            </html>
+                        """,
+                        mimeType: 'text/html',
+                        to: 'hemanthreddy12773@gmail.com'
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "FAILED: ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                        body: """
+                            <html>
+                            <body>
+                              <p>Hello Team,</p>
+                              <p>The latest Jenkins build has <b style="color: red;">FAILED</b>.</p>
+                              <p><b>Project Name:</b> ${env.JOB_NAME}</p>
+                              <p><b>Build Number:</b> #${env.BUILD_NUMBER}</p>
+                              <p><b>Build Status:</b> <span style="color: red;"><b>FAILED ❌</b></span></p>
+                              <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                              <p><b>Console Logs:</b> <a href="${env.BUILD_URL}console">View Failure Details</a></p>
+                              <hr>
+                              <p><b>Available QA Reports:</b></p>
+                              <ul>
+                                <li><b>Extent Report:</b> <a href="${env.BUILD_URL}Extent_20Report/">View Online</a></li>
+                                <li><b>Cucumber Report:</b> <a href="${env.BUILD_URL}cucumber-html-reports/overview-features.html">View Online</a></li>
+                              </ul>
+                              <p>Best regards,<br><b>Automation Team</b></p>
+                            </body>
+                            </html>
+                        """,
+                        mimeType: 'text/html',
+                        to: 'hemanthreddy12773@gmail.com'
+                    )
+                }
         unstable {
             echo "BUILD UNSTABLE - Some tests failed"
         }
