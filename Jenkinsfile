@@ -100,11 +100,20 @@ pipeline {
                 mimeType: 'text/html',
                 to: 'hemanthreddy12773@gmail.com'
             )
-            slackSend(
-                color: 'good',
-                channel: '#all-jenkins',
-                message: "✅ SUCCESS: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]\nExtent: ${env.BUILD_URL}artifact/target/ExtentReports/index.html"
-            )
+            withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_URL')]) {
+
+                powershell """
+                    $payload = @{
+                        text = "✅ SUCCESS: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]`nExtent Report: ${env.BUILD_URL}artifact/target/ExtentReports/index.html"
+                    } | ConvertTo-Json
+
+                    Invoke-RestMethod `
+                        -Uri "$env:SLACK_URL" `
+                        -Method Post `
+                        -Body $payload `
+                        -ContentType 'application/json'
+                """
+            }
         }
 
         failure {
@@ -129,11 +138,20 @@ pipeline {
                 mimeType: 'text/html',
                 to: 'hemanthreddy12773@gmail.com'
             )
-            slackSend(
-                color: 'danger',
-                channel: '#all-jenkins',
-                message: "❌ FAILED: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]\nConsole: ${env.BUILD_URL}console"
-            )
+            withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_URL')]) {
+
+                powershell """
+                    $payload = @{
+                        text = "❌ FAILED: ${env.JOB_NAME} [#${env.BUILD_NUMBER}]`nConsole: ${env.BUILD_URL}console"
+                    } | ConvertTo-Json
+
+                    Invoke-RestMethod `
+                        -Uri "$env:SLACK_URL" `
+                        -Method Post `
+                        -Body $payload `
+                        -ContentType 'application/json'
+                """
+            }
         }
     }
 }
