@@ -26,3 +26,5 @@ target/surefire-reports/
 # Keep testdata folder structure but ignore actual Excel files
 src/test/resources/testdata/*.xlsx
 !src/test/resources/testdata/README.txt
+/allure-results/
+/test-output/
